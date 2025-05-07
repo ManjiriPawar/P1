@@ -1,0 +1,110 @@
+index.html 
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Registration Form</title>
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"
+    />
+    <!--This styles the form and components with a mobile-friendly look.-->
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!--This is the main jQuery library that jQuery Mobile depends on.-->
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <!--This adds mobile-specific features-->
+    <link href="style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div data-role="page">
+      <!--main jQuery Mobile page container -->
+      <!-- Navbar -->
+      <div data-role="header">
+        <!--	Creates a mobile-friendly header-->
+        <h1>Student Registration</h1>
+      </div>
+
+      <!-- Wraps the core content of the page.-->
+      <div data-role="main" class="ui-content">
+        <!--ui-content for padding.-->
+        <form id="registrationForm">
+          <label for="name">Full Name:</label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Enter your full name"
+          />
+
+          <label for="email">Email:</label>
+          <!--for just references an existing ID.-->
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Enter your email"
+          />
+
+          <label for="gender">Gender:</label>
+          <fieldset data-role="controlgroup">
+            <!--Groups related form elements-->
+            <label for="male">Male</label>
+            <input type="radio" name="gender" id="male" value="male" />
+            <label for="female">Female</label>
+            <input type="radio" name="gender" id="female" value="female" />
+          </fieldset>
+
+          <label for="dob">Date of Birth:</label>
+          <input type="date" name="dob" id="dob" />
+
+          <label for="course">Course:</label>
+          <select name="course" id="course">
+            <option value="cs">Computer Science</option>
+            <option value="math">Entc</option>
+            <option value="phy">IT</option>
+          </select>
+
+          <label for="terms">I agree to the terms and conditions</label>
+          <input type="checkbox" name="terms" id="terms" />
+
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
+
+      <!-- Creates a footer bar -->
+      <div data-role="footer">
+        <h4>© 2023 Student Registration. All rights reserved.</h4>
+      </div>
+    </div>
+
+    <script>
+      $(document).on("pagecreate", function () {
+        //This waits for jQuery Mobile's pagecreate event, which is triggered when a page is initialized.
+        $("#registrationForm").on("submit", function (e) {
+          //Selects the form with ID registrationForm. Attaches a submit event listener. function (e) defines what to do when the form is submitted.
+          e.preventDefault(); // Prevent the form from submitting the traditional way
+          alert("Submission Successful!"); //Shows a simple popup message to the user after form submission.
+        });
+      });
+    </script>
+  </body>
+</html>
+
+
+style.css
+
+.ui-header,
+.ui-footer {
+  background: #7f99b7 !important;
+  color: white !important;
+}
+
+.ui-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+/*!important rule is used to force a CSS property to override jQuery css*/

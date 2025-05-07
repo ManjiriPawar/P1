@@ -1,0 +1,165 @@
+server.js
+
+// Importing the express module
+const express = require("express");
+
+// Importing the path module to handle file and directory paths
+const path = require("path");
+
+// Creating an express application instance
+const app = express();
+
+// Defining the port number for the server to listen on
+const PORT = 3000;
+
+// Middleware to serve static files (like images, CSS, and JS) from the "public" directory
+app.use(express.static(path.join(__dirname, "public")));
+
+// Setting up the server to listen on the defined port and log a message when the server starts
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
+
+
+public/index.html
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>John Doe | Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="overlay">
+      <div class="container">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
+          alt="Profile Picture"
+          class="profile-img"
+        />
+
+        <h1>John Doe</h1>
+        <h2>Frontend Developer</h2>
+        <p>
+          Passionate about building fast and elegant web experiences using HTML,
+          CSS, JavaScript, and React.
+        </p>
+
+        <section class="projects">
+          <h3>Projects</h3>
+          <div class="project-grid">
+            <div class="project-card">
+              <h4>Weather App</h4>
+              <p>
+                Live weather updates using OpenWeather API. Responsive and
+                mobile-friendly.
+              </p>
+            </div>
+            <div class="project-card">
+              <h4>Task Manager</h4>
+              <p>
+                Organize your tasks with a drag-and-drop interface and
+                persistent storage.
+              </p>
+            </div>
+            <div class="project-card">
+              <h4>Crypto Tracker</h4>
+              <p>
+                Real-time cryptocurrency prices and market data using CoinGecko
+                API.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+public/style.css
+
+body {
+  margin: 0;
+  background: linear-gradient(to right, #dbeafe, #e0f2fe);
+  color: #1e293b;
+}
+
+.overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.container {
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 14px;
+  max-width: 800px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+}
+
+.profile-img {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  background-color: #e5e7eb;
+  border: 3px solid #6366f1;
+}
+
+h1 {
+  font-size: 2.2rem;
+  margin: 10px 0;
+  color: #111827;
+}
+
+h2 {
+  font-weight: 500;
+  color: #4f46e5;
+}
+
+p {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  color: #374151;
+}
+
+.projects {
+  margin-top: 40px;
+}
+
+.project-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.project-card {
+  background: #f3f4f6;
+  padding: 20px;
+  width: 220px;
+  border-radius: 12px;
+  border: 2px solid #c7d2fe;
+  transition: transform 0.2s;
+}
+
+.project-card h4 {
+  margin-bottom: 0.5rem;
+  color: #1e40af;
+}
+
+
+
+
+cmd - 1) npx express-generator 
+	2) npm i
+	3) DEBUG=folder_name:* npm start

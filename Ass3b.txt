@@ -1,0 +1,96 @@
+server.js
+
+const express = require("express"); // Import the Express library for building the web server
+const mongoose = require("mongoose"); // Import Mongoose for interacting with MongoDB
+const app = express(); // Create an instance of an Express application
+const PORT = 5000; // Set the port number on which the server will listen
+
+// Middleware
+app.use(express.json()); // Built-in middleware to parse incoming JSON request bodies
+// MongoDB Connection
+mongoose
+  .connect("mongodb://127.0.0.1:27017/assignment2c", {
+    // Connect to MongoDB using the specified connection string
+    useNewUrlParser: true, // Use the new MongoDB connection string parser to avoid deprecation warnings
+    useUnifiedTopology: true, // Use the new connection management engine to avoid deprecation warnings
+  })
+  .then(() => console.log("MongoDB Connected")) // If the connection is successful, log a success message
+  .catch((err) => console.error("MongoDB Error:", err)); // If there's an error connecting, log the error message
+
+// Mongoose Schema
+const userSchema = new mongoose.Schema({
+  // Define the schema for the "User" collection in MongoDB
+  name: String, // Define the "name" field (string type)
+  address: String, // Define the "address" field (string type)
+  contact: String, // Define the "contact" field (string type)
+  email: String, // Define the "email" field (string type)
+  password: String, // Define the "password" field (string type)
+});
+
+const User = mongoose.model("User", userSchema); // Create a Mongoose model called "User" based on the "userSchema"
+
+// CRUD ROUTES
+
+// CREATE - Register user
+app.post("/api/users", async (req, res) => {
+  // Define a POST route to create a new user
+  const { name, address, contact, email, password } = req.body; // Destructure the user details from the request body
+  try {
+    const newUser = new User({ name, address, contact, email, password }); // Create a new instance of the User model with the provided details
+    await newUser.save(); // Save the new user to the database
+    res.status(201).json({ message: "User registered", user: newUser }); // Respond with a success message and the created user data
+  } catch (err) {
+    res.status(500).json({ error: "Failed to create user" }); // Respond with an error message if the operation fails
+  }
+});
+
+// READ - Get user by ID
+app.get("/api/users/:id", async (req, res) => {
+  // Define a GET route to fetch a user by their ID
+  try {
+    const user = await User.findById(req.params.id).select("-password"); // Find the user by ID and exclude the "password" field from the result
+    if (!user) return res.status(404).json({ error: "User not found" }); // If the user is not found, respond with a 404 error
+    res.json(user); // Respond with the found user data
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch user" }); // Respond with an error message if the operation fails
+  }
+});
+
+// UPDATE - Update user by ID
+app.put("/api/users/:id", async (req, res) => {
+  // Define a PUT route to update a user by their ID
+  const { name, address, contact, email } = req.body; // Destructure the updated user details from the request body
+  try {
+    const user = await User.findByIdAndUpdate(
+      // Find the user by ID and update the specified fields
+      req.params.id,
+      { name, address, contact, email },
+      { new: true } // Return the updated user document instead of the old one
+    );
+    res.json({ message: "User updated", user }); // Respond with a success message and the updated user data
+  } catch (err) {
+    res.status(500).json({ error: "Failed to update user" }); // Respond with an error message if the operation fails
+  }
+});
+
+// DELETE - Delete user by ID
+app.delete("/api/users/:id", async (req, res) => {
+  // Define a DELETE route to delete a user by their ID
+  try {
+    await User.findByIdAndDelete(req.params.id); // Find the user by ID and delete them from the database
+    res.json({ message: "User deleted successfully" }); // Respond with a success message
+  } catch (err) {
+    res.status(500).json({ error: "Failed to delete user" }); // Respond with an error message if the operation fails
+  }
+});
+
+// Start the server
+app.listen(
+  PORT,
+  () =>
+    // Start the Express server and listen on the specified port (5000)
+    console.log(`Server running at http://localhost:${PORT}`) // Log the server URL when it's running
+);
+
+
+cmd - npm install express , npm install mongoose , npm start

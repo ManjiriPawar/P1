@@ -1,0 +1,45 @@
+Dockerfile
+
+# Use a lightweight Node.js image
+FROM node:18-alpine
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Copy only package files first to utilize Docker cache
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of your application code
+COPY . .
+
+# Expose the application port
+EXPOSE 3000
+
+# Run the app
+CMD ["npm", "start"]
+
+
+index.js
+
+const http = require("http");
+const PORT = process.env.PORT || 3000;
+
+const server = http.createServer((req, res) => {
+  res.end("Hello from Dockerized Node.js App!");
+});
+
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+
+cmd - npm init -y 
+
+wsl --update 
+
+docker build -t docker1 . 
+docker run -p 3000:3000 docker1
+

@@ -1,0 +1,459 @@
+html
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-commerce Admin Dashboard</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <nav class="navbar navbar-light bg-light shadow">
+      <a class="navbar-brand" href="#">
+        <span class="fw-bold text-black fs-4"
+          >Shop <span style="color: #2cd9c5">Mart</span></span
+        >
+      </a>
+    </nav>
+
+    <div class="sidebar p-3">
+      <div class="mb-3 text-white">
+        <div class="d-flex align-items-center">
+          <i class="bi bi-person-circle me-2"></i>
+          <span>Admin User</span>
+        </div>
+      </div>
+      <nav class="nav flex-column">
+        <a href="#" class="nav-link text-white"
+          ><i class="bi bi-house me-2"></i> Home</a
+        >
+          <a href="#" class="nav-link text-white" onclick="showProductForm()"
+            ><i class="bi bi-box me-2"></i> Products</a
+          >
+          <a href="#" class="nav-link text-white"
+          ><i class="bi bi-cart me-2"></i> Orders</a
+        >
+        <a href="#" class="nav-link text-white"
+          ><i class="bi bi-people me-2"></i> Customers</a
+        >
+        </nav>
+      </div>
+
+    
+      <div id="mainContent" class="p-4">
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <div class="stat-card bg-success-custom p-3">
+              <small>Total Sales</small>
+              <h3>$120,000</h3>
+              <small><i class="bi bi-arrow-up"></i> +10%</small>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="stat-card bg-danger-custom p-3">
+              <small>Orders</small>
+              <h3>1,540</h3>
+              <small><i class="bi bi-arrow-down"></i> -3%</small>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="stat-card bg-success-custom p-3">
+              <small>New Customers</small>
+              <h3>240</h3>
+              <small><i class="bi bi-arrow-up"></i> +15%</small>
+            </div>
+          </div>
+        </div>
+  
+        <div class="chart-container bg-white p-3 shadow rounded">
+          <h6 class="mb-3">Sales Overview</h6>
+          <canvas id="salesChart" height="100"></canvas>
+        </div>
+      </div>
+      <div
+        id="productForm"
+        style="
+          display: none;
+          padding: 20px;
+          margin-left: 500px;
+          margin-right: 200px;
+          width: 60%;
+        "
+      >
+        <h2 class="text-center mb-4">Add New Product</h2>
+        <form id="registrationForm" action="#" method="POST">
+          <div class="form-group">
+            <label for="productName">Product Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="productName"
+              placeholder="Enter product name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="productDescription">Description</label>
+            <textarea
+              class="form-control"
+              id="productDescription"
+              rows="4"
+              placeholder="Enter product description"
+              required
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="productPrice">Price</label>
+            <input
+              type="number"
+              class="form-control"
+              id="productPrice"
+              placeholder="Enter product price"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select class="form-control" id="category" required>
+              <option>Select Category</option>
+              <option>Electronics</option>
+              <option>Clothing</option>
+              <option>Furniture</option>
+              <option>Books</option>
+              <option>Beauty</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="brandName">Brand Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="brandName"
+              placeholder="Enter brand name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="inventoryStatus">Inventory Status</label>
+            <select class="form-control" id="inventoryStatus" required>
+              <option>In Stock</option>
+              <option>Out of Stock</option>
+              <option>Pre-Order</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="lowStockAlert">Low Stock Alert Threshold</label>
+            <input
+              type="number"
+              class="form-control"
+              id="lowStockAlert"
+              placeholder="Set stock alert threshold"
+            />
+          </div>
+          <fieldset class="form-group">
+            <label>Size Options</label>
+            <div>
+              <select class="form-control" id="sizeOptions">
+                <option>S</option>
+                <option>M</option>
+                <option>L</option>
+                <option>XL</option>
+              </select>
+            </div>
+            <label>Color Options</label>
+            <div class="mt-2">
+              <input type="checkbox" id="colorRed" name="color" value="Red" />
+              <label class="color-swatch" style="background-color: red"></label>
+              Red
+              <input type="checkbox" id="colorBlue" name="color" value="Blue" />
+              <label
+                class="color-swatch"
+                style="background-color: blue"
+              ></label>
+              Blue
+              <input
+                type="checkbox"
+                id="colorGreen"
+                name="color"
+                value="Green"
+              />
+              <label
+                class="color-swatch"
+                style="background-color: green"
+              ></label>
+              Green
+            </div>
+          </fieldset>
+          <button type="submit" class="btn btn-primary btn-block mt-4">
+            Add Product
+          </button>
+        </form>
+      </div>
+
+      <div
+        id="productTable"
+        style="
+          display: none;
+          padding: 20px;
+          margin-left: 500px;
+          margin-right: 200px;
+          width: 60%;
+        "
+      >
+        <h2 class="text-center mb-4">Submitted Products</h2>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Category</th>
+              <th>Brand Name</th>
+              <th>Inventory Status</th>
+              <th>Low Stock Alert</th>
+              <th>Size Options</th>
+              <th>Colors</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <!-- Rows will be added dynamically here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
+
+
+
+js
+
+
+
+new Chart(document.getElementById("salesChart"), {
+  type: "line",
+  data: {
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    datasets: [
+      {
+        label: "Sales",
+        data: [12, 15, 13, 18, 20, 17],
+        borderColor: "#ff6384",
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        pointBackgroundColor: "#ff6384",
+        pointBorderColor: "#fff",
+        fill: true, //This fills the area under the line with the backgroundColor
+        tension: 0.4, //This adds some curvature to the line.
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: true },
+    }, //This makes the chart's legend visible, which will show the "Sales" label.
+  },
+});
+
+$(document).ready(function () {
+  // Load products from local storage
+  let products = JSON.parse(localStorage.getItem("products")) || [];
+
+  // Display products
+  function displayProducts() {
+    $("#tableBody").empty(); // Clear the table
+    products.forEach((product, index) => {
+      const row = `<tr>
+                      <td>${product.name}</td>
+                      <td>${product.description}</td>
+                      <td>${product.price}</td>
+                      <td>${product.category}</td>
+                      <td>${product.brand}</td>
+                      <td>${product.inventoryStatus}</td>
+                      <td>${product.lowStockAlert}</td>
+                      <td>${product.sizeOptions}</td>
+                      <td>${product.colors.join(", ")}</td>
+                  </tr>`;
+      $("#tableBody").append(row);
+    });
+  }
+
+  // Handle form submission
+  $("#registrationForm").on("submit", function (e) {
+    e.preventDefault(); //Prevents the default form submission
+
+    // Get form data
+    const productName = $("#productName").val(); //Gets the value entered
+    const productDescription = $("#productDescription").val();
+    const productPrice = $("#productPrice").val();
+    const category = $("#category").val();
+    const brandName = $("#brandName").val();
+    const inventoryStatus = $("#inventoryStatus").val();
+    const lowStockAlert = $("#lowStockAlert").val();
+    const sizeOptions = $("#sizeOptions").val();
+    const colors = [];
+    $('input[name="color"]:checked').each(function () {
+      colors.push($(this).val()); //Loops through all checked color options and adds them to the colors array.
+    });
+
+    // Create product object
+    const product = {
+      name: productName,
+      description: productDescription,
+      price: productPrice,
+      category: category,
+      brand: brandName,
+      inventoryStatus: inventoryStatus,
+      lowStockAlert: lowStockAlert,
+      sizeOptions: sizeOptions,
+      colors: colors,
+    };
+
+    // Simulate AJAX POST request using XMLHttpRequest
+    const xhr = new XMLHttpRequest(); //Creates a new instance of an XMLHttpRequest object to make AJAX requests.
+    xhr.open("POST", "https://jsonplaceholder.typicode.com/posts", true); //Initializes the request with the HTTP method (POST) and URL
+    xhr.setRequestHeader("Content-Type", "application/json"); //Sets the content type of the request to JSON.
+
+    xhr.onload = function () {
+      /*The callback function when the request finishes. If the status is successful, it:
+        Adds the new product to the products array.
+        Saves the updated list to local storage.
+        Calls displayProducts() to update the table.
+        Switches from the product form view to the product table view.
+        Resets the form.*/
+      if (xhr.status >= 200 && xhr.status < 400) {
+        const data = JSON.parse(xhr.responseText);
+
+        // Add product to local storage
+        products.push(product); // Use the product object created above
+        localStorage.setItem("products", JSON.stringify(products));
+
+        // Display updated product list
+        displayProducts();
+
+        // Switch to View Products section
+        $("#productForm").hide();
+        $("#productTable").show();
+
+        // Clear the form
+        $("#registrationForm")[0].reset();
+      } else {
+        console.error("Error:", xhr.statusText);
+      }
+    };
+
+    xhr.onerror = function () {
+      console.error("Request failed");
+    };
+
+    xhr.send(JSON.stringify(product)); //Sends the request with the product data.
+  });
+
+  // Show product form
+  window.showProductForm = function () {
+    $("#mainContent").hide();
+    $("#productForm").show();
+    $("#productTable").hide();
+  };
+
+  // Show product table
+  window.showProductTable = function () {
+    $("#mainContent").hide();
+    $("#productForm").hide();
+    $("#productTable").show();
+    displayProducts();
+  };
+});
+
+
+css
+
+body {
+  margin: 0;
+  background: linear-gradient(to right, #dbeafe, #e0f2fe);
+  color: #1e293b;
+}
+
+.overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.container {
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 14px;
+  max-width: 800px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+}
+
+.profile-img {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  background-color: #e5e7eb;
+  border: 3px solid #6366f1;
+}
+
+h1 {
+  font-size: 2.2rem;
+  margin: 10px 0;
+  color: #111827;
+}
+
+h2 {
+  font-weight: 500;
+  color: #4f46e5;
+}
+
+p {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  color: #374151;
+}
+
+.projects {
+  margin-top: 40px;
+}
+
+.project-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.project-card {
+  background: #f3f4f6;
+  padding: 20px;
+  width: 220px;
+  border-radius: 12px;
+  border: 2px solid #c7d2fe;
+  transition: transform 0.2s;
+}
+
+.project-card h4 {
+  margin-bottom: 0.5rem;
+  color: #1e40af;
+}
+
